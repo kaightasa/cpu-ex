@@ -5,19 +5,17 @@
 #include <vector>
 #include <sstream>
 #include "encode.h"
+#include "opAsm.h"
 
 
 using namespace std;
 
 uint32_t encode(string);
+extern vector<string> StringSplit(const string, char);
 extern uint32_t encode_to_op(vector<string>);
 
 uint32_t encode(string str) {
-	stringstream ss(str);
-	vector<string> vitem;
-	while(getline(ss, string item, ' ')) {
-		vitem.push_back(item);
-	}
+	vector<string> vitem = StringSplit(str, ' ');
 	uint32_t op = encode_to_op(vitem);
 	return op;
 }

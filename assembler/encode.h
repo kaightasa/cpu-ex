@@ -5,6 +5,6 @@
 #include <stdint.h>
 #include "opAsm.h"
 
-uint32_t encode_to_op(vector<string>);
+uint32_t encode_to_op(std::vector<std::string>);
 
 #endif //ENCODE_H_

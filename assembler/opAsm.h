@@ -1,6 +1,19 @@
 #ifndef OPASM_H_
 #define OPASM_H_
 
+#include <vector>
+#include <string>
+#include <stdint.h>
+
+using namespace std;
+
+vector<string> StringSplit(const string, char);
+
+uint32_t getrD(string);
+uint32_t getrA(string);
+uint32_t getrB(string);
+uint32_t getsimm16(string);
+
 uint32_t op_li(vector<string>);
 uint32_t op_mr(vector<string>);
 uint32_t op_addi(vector<string>);
