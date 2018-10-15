@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall
+CFLAGS = -std=c++11 -Wall
 
 ALL: asm.o encode.o opAsm.o
 	$(CC) $(CFLAGS) -o asm asm.o encode.o opAsm.o
