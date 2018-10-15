@@ -7,48 +7,48 @@
 
 using namespace std;
 
-vector<string> StringSplit(const string, char);
+vector<string> StringSplit(const string, const char);
 
-uint32_t get_rD(string);
-uint32_t get_rA(string);
-uint32_t get_rB(string);
-uint32_t get_simm16(string);
-uint32_t get_imm5(string);
-uint32_t get_simm26(string);
+uint32_t get_rD(const string);
+uint32_t get_rA(const string);
+uint32_t get_rB(const string);
+uint32_t get_simm16(const string);
+uint32_t get_imm5(const string);
+uint32_t get_simm26(const string);
 
-uint32_t op_li(vector<string>);
-uint32_t op_mr(vector<string>);
-uint32_t op_addi(vector<string>);
-uint32_t op_add(vector<string>);
-uint32_t op_sub(vector<string>);
-uint32_t op_slwi(vector<string>);
-uint32_t op_srwi(vector<string>);
-uint32_t op_fadd(vector<string>);
-uint32_t op_fsub(vector<string>);
-uint32_t op_fdiv(vector<string>);
-uint32_t op_fmul(vector<string>);
-uint32_t op_fsqrt(vector<string>);
-uint32_t op_fabs(vector<string>);
-uint32_t op_fmr(vector<string>);
-uint32_t op_b(vector<string>);
-uint32_t op_beq(vector<string>);
-uint32_t op_bne(vector<string>);
-uint32_t op_blt(vector<string>);
-uint32_t op_bl(vector<string>);
-uint32_t op_blr(vector<string>);
-uint32_t op_mflr(vector<string>);
-uint32_t op_mtlr(vector<string>);
-uint32_t op_cmpwi(vector<string>);
-uint32_t op_cmpw(vector<string>);
-uint32_t op_fcmp(vector<string>);
-uint32_t op_ld(vector<string>);
-uint32_t op_st(vector<string>);
-uint32_t op_fld(vector<string>);
-uint32_t op_fst(vector<string>);
+uint32_t op_li(const vector<string>&);
+uint32_t op_mr(const vector<string>&);
+uint32_t op_addi(const vector<string>&);
+uint32_t op_add(const vector<string>&);
+uint32_t op_sub(const vector<string>&);
+uint32_t op_slwi(const vector<string>&);
+uint32_t op_srwi(const vector<string>&);
+uint32_t op_fadd(const vector<string>&);
+uint32_t op_fsub(const vector<string>&);
+uint32_t op_fdiv(const vector<string>&);
+uint32_t op_fmul(const vector<string>&);
+uint32_t op_fsqrt(const vector<string>&);
+uint32_t op_fabs(const vector<string>&);
+uint32_t op_fmr(const vector<string>&);
+uint32_t op_b(const vector<string>&);
+uint32_t op_beq(const vector<string>&);
+uint32_t op_bne(const vector<string>&);
+uint32_t op_blt(const vector<string>&);
+uint32_t op_bl(const vector<string>&);
+uint32_t op_blr(const vector<string>&);
+uint32_t op_mflr(const vector<string>&);
+uint32_t op_mtlr(const vector<string>&);
+uint32_t op_cmpwi(const vector<string>&);
+uint32_t op_cmpw(const vector<string>&);
+uint32_t op_fcmp(const vector<string>&);
+uint32_t op_ld(const vector<string>&);
+uint32_t op_st(const vector<string>&);
+uint32_t op_fld(const vector<string>&);
+uint32_t op_fst(const vector<string>&);
 
-uint32_t set_txt(vector<string>);
-uint32_t set_align(vector<string>);
-uint32_t set_globl(vector<string>);
-uint32_t set_label(vector<string>);
+uint32_t set_txt(const vector<string>&);
+uint32_t set_align(const vector<string>&);
+uint32_t set_globl(const vector<string>&);
+uint32_t set_label(const vector<string>&);
 
 #endif //OPASM_H_

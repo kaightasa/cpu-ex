@@ -23,30 +23,30 @@ vector<string> StringSplit(const string str, char sep) {
 	return v;
 }
 
-uint32_t get_rD(string str) {
+uint32_t get_rD(const string str) {
 	vector<string> vtmp = StringSplit(str, 'r');
 	int r = stoi(vtmp[1]);
 	return r << 21;
 }	
-uint32_t get_rA(string str) {
+uint32_t get_rA(const string str) {
 	vector<string> vtmp = StringSplit(str, 'r');
 	int r = stoi(vtmp[1]);
 	return r << 16;
 }
-uint32_t get_rB(string str) {
+uint32_t get_rB(const string str) {
 	vector<string> vtmp = StringSplit(str, 'r');
 	int r = stoi(vtmp[1]);
 	return r << 11;
 }
-uint32_t get_simm16(string str) {
+uint32_t get_simm16(const string str) {
 	int r = stoi(str);
 	return r;
 }
-uint32_t get_imm5(string str) {
+uint32_t get_imm5(const string str) {
 	int r = stoi(str);
 	return r << 11;
 }
-uint32_t get_simm26(string str) {
+uint32_t get_simm26(const string str) {
 	//labalでアドレスが指定されているならmapからlabelを探す
 	uint32_t addr;
 	try{
@@ -60,148 +60,148 @@ uint32_t get_simm26(string str) {
 
 
 //integer
-uint32_t op_li(vector<string> vitem) {
+uint32_t op_li(const vector<string>& vitem) {
 	op = 0;
-	return (op & get_rD(vitem[1]) & get_simm16(vitem[2]));
+	return (op | get_rD(vitem[1]) | get_simm16(vitem[2]));
 }
-uint32_t op_mr(vector<string> vitem) {
+uint32_t op_mr(const vector<string>& vitem) {
 	op = (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]));
 }
-uint32_t op_addi(vector<string> vitem){
+uint32_t op_addi(const vector<string>& vitem){
 	op = (1 << 27);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_simm16(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_simm16(vitem[3]));
 }
-uint32_t op_add(vector<string> vitem){
+uint32_t op_add(const vector<string>& vitem){
 	op = (1 << 27) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_rB(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
 }
-uint32_t op_sub(vector<string> vitem){
+uint32_t op_sub(const vector<string>& vitem){
 	op = (1 << 28);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_rB(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
 }
 
-uint32_t op_slwi(vector<string> vitem){
+uint32_t op_slwi(const vector<string>& vitem){
 	op = (1 << 28) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_imm5(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_imm5(vitem[3]));
 }
-uint32_t op_srwi(vector<string> vitem){
+uint32_t op_srwi(const vector<string>& vitem){
 	op = (1 << 28) | (1 << 27);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_imm5(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_imm5(vitem[3]));
 }
 
 
 //float
-uint32_t op_fadd(vector<string> vitem){
+uint32_t op_fadd(const vector<string>& vitem){
 	op = (1 << 28) | (1 << 27) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_rB(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
 }
-uint32_t op_fsub(vector<string> vitem){
+uint32_t op_fsub(const vector<string>& vitem){
 	op = (1 << 29);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_rB(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
 }
-uint32_t op_fdiv(vector<string> vitem){
+uint32_t op_fdiv(const vector<string>& vitem){
 	op = (1 << 29) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_rB(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
 }
-uint32_t op_fmul(vector<string> vitem){
+uint32_t op_fmul(const vector<string>& vitem){
 	op = (1 << 29) | (1 << 27);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_rB(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
 }
-uint32_t op_fsqrt(vector<string> vitem){
+uint32_t op_fsqrt(const vector<string>& vitem){
 	op = (1 << 29) | (1 << 27) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]));
 }
-uint32_t op_fabs(vector<string> vitem){
+uint32_t op_fabs(const vector<string>& vitem){
 	op = (1 << 29) | (1 << 28);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]));
 }
-uint32_t op_fmr(vector<string> vitem){
+uint32_t op_fmr(const vector<string>& vitem){
 	op = (1 << 29) | (1 << 28) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]));
 }
 
 
 //条件分岐
-uint32_t op_b(vector<string> vitem) {
+uint32_t op_b(const vector<string>& vitem) {
 	op = (1 << 29)| (1 << 28) | (1 << 27);
-	return (op & get_simm26(vitem[1]));
+	return (op | get_simm26(vitem[1]));
 }
-uint32_t op_beq(vector<string> vitem){
+uint32_t op_beq(const vector<string>& vitem){
 	op = (1 << 29)| (1 << 28) | (1 << 27) | (1 << 26);
-	return (op & get_simm26(vitem[1]));
+	return (op | get_simm26(vitem[1]));
 }
-uint32_t op_bne(vector<string> vitem){
+uint32_t op_bne(const vector<string>& vitem){
 	op = (1 << 30);
-	return (op & get_simm26(vitem[1]));
+	return (op | get_simm26(vitem[1]));
 }
-uint32_t op_blt(vector<string> vitem){
+uint32_t op_blt(const vector<string>& vitem){
 	op = (1 << 30)| (1 << 26);
-	return (op & get_simm26(vitem[1]));
+	return (op | get_simm26(vitem[1]));
 }
-uint32_t op_bl(vector<string> vitem){
+uint32_t op_bl(const vector<string>& vitem){
 	op = (1 << 30)| (1 << 27);
-	return (op & get_simm26(vitem[1]));
+	return (op | get_simm26(vitem[1]));
 }
-uint32_t op_blr(vector<string> vitem){
+uint32_t op_blr(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 27) | (1 << 26);
 	return op;
 }
-uint32_t op_mflr(vector<string> vitem){
+uint32_t op_mflr(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 28);
-	return (op & get_rD(vitem[1]));
+	return (op | get_rD(vitem[1]));
 }
-uint32_t op_mtlr(vector<string> vitem){
+uint32_t op_mtlr(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 28) | (1 << 26);
-	return (op & get_rD(vitem[1]));
+	return (op | get_rD(vitem[1]));
 }
 
 
 //compare
-uint32_t op_cmpwi(vector<string> vitem){
+uint32_t op_cmpwi(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 28) | (1 << 27);
-	return (op & get_rA(vitem[1]) & get_simm16(vitem[2]));
+	return (op | get_rA(vitem[1]) | get_simm16(vitem[2]));
 }
-uint32_t op_cmpw(vector<string> vitem){
+uint32_t op_cmpw(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 28) | (1 << 27) | (1 << 26);
-	return (op & get_rA(vitem[1]) & get_rB(vitem[2]));
+	return (op | get_rA(vitem[1]) | get_rB(vitem[2]));
 }
-uint32_t op_fcmp(vector<string> vitem){
+uint32_t op_fcmp(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 29);
-	return (op & get_rA(vitem[1]) & get_rB(vitem[2]));
+	return (op | get_rA(vitem[1]) | get_rB(vitem[2]));
 }
 
 
 //load and store
-uint32_t op_ld(vector<string> vitem){
+uint32_t op_ld(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 29) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_simm16(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_simm16(vitem[3]));
 }
-uint32_t op_st(vector<string> vitem){
+uint32_t op_st(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 29) | (1 << 27);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_simm16(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_simm16(vitem[3]));
 }
-uint32_t op_fld(vector<string> vitem){
+uint32_t op_fld(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 29) | (1 << 27) | (1 << 26);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_simm16(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_simm16(vitem[3]));
 }
-uint32_t op_fst(vector<string> vitem){
+uint32_t op_fst(const vector<string>& vitem){
 	op = (1 << 30) | (1 << 29) | (1 << 28);
-	return (op & get_rD(vitem[1]) & get_rA(vitem[2]) & get_simm16(vitem[3]));
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_simm16(vitem[3]));
 }
 
 
 
-uint32_t set_txt(vector<string> vitem) {
+uint32_t set_txt(const vector<string>& vitem) {
 	return 0;
 }
-uint32_t set_align(vector<string> vitem) {
+uint32_t set_align(const vector<string>& vitem) {
 	return 0;
 }
-uint32_t set_globl(vector<string> vitem) {
+uint32_t set_globl(const vector<string>& vitem) {
 	return 0;
 }
-uint32_t set_label(vector<string> vitem) {
+uint32_t set_label(const vector<string>& vitem) {
 	vector<string> vtmp = StringSplit(vitem[0], ':');
 	labelMap[vtmp[0]] = PC;
 	return 0;

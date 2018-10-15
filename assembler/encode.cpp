@@ -1,11 +1,14 @@
 #include <iostream>
+#include <string>
+#include <vector>
 #include "encode.h"
 
 using namespace std;
 
-#define scmp(str) vitem[0].compare(str)==0
+#define scmp(str) vitem[0] == str
 
 uint32_t encode_to_op(vector<string> vitem) {
+
 	if (scmp("li")) {return op_li(vitem);}
 	if (scmp("mr")) {return op_mr(vitem);}
 	if (scmp("addi")) {return op_addi(vitem);}
