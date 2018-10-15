@@ -22,6 +22,7 @@ uint32_t encode_to_op(vector<string> vitem) {
 	if (scmp("fmul")) {return op_fmul(vitem);}
 	if (scmp("fsqrt")) {return op_fsqrt(vitem);}
 	if (scmp("fabs")) {return op_fabs(vitem);}
+	if (scmp("fmr")) {return op_fmr(vitem);}
 	if (scmp("b")) {return op_b(vitem);}
 	if (scmp("beq")) {return op_beq(vitem);}
 	if (scmp("bne")) {return op_bne(vitem);}

@@ -55,7 +55,7 @@ uint32_t get_simm26(const string str) {
 		addr = labelMap.at(str);
 	}
 	uint32_t simm26 =  PC - addr;
-	return (simm26 & 0x03FFFFFF);
+	return (simm26 & 0x03FFFFFF) >> 2;
 }
 
 
