@@ -11,6 +11,7 @@
 using namespace std;
 
 uint32_t encode(string);
+uint32_t PC = 0;
 extern vector<string> StringSplit(const string, char);
 extern uint32_t encode_to_op(vector<string>);
 
@@ -37,11 +38,15 @@ int main(int argc, char** argv) {
 		linenum++;
 		op = encode(line);
 		if (op == 0xffffffff) {
-			cerr << "not defined in line" << linenum << endl;
+			cerr << "undefined instruction" << linenum << endl;
+			return 1;
+		}
+		if (op == 0x00000000) {
 			continue;
 		}
 		//simulator用にバイナリ出力に直す
 		fileout << hex << op << endl;
+		PC += 4;
 	}
 
 	filein.close();

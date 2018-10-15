@@ -226,7 +226,7 @@ void branch() {
 	simm26 = get_simm26(OP);
 	PC += simm26;
 
-	//本来はPCはwordごなので2bit左シフト
+	//本来はPCはwordごとなので2bit左シフト
 	//今はただ配列のindex
 }
 void branch_eq() {

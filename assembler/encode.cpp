@@ -6,8 +6,8 @@ using namespace std;
 #define scmp(str) vitem[0].compare(str)==0
 
 uint32_t encode_to_op(vector<string> vitem) {
-	if (scmp("add")) {return op_li(vitem);}
-	if (scmp("mr")) {return op_addi(vitem);}
+	if (scmp("li")) {return op_li(vitem);}
+	if (scmp("mr")) {return op_mr(vitem);}
 	if (scmp("addi")) {return op_addi(vitem);}
 	if (scmp("add")) {return op_add(vitem);}
 	if (scmp("sub")) {return op_sub(vitem);}
@@ -16,7 +16,7 @@ uint32_t encode_to_op(vector<string> vitem) {
 	if (scmp("fadd")) {return op_fadd(vitem);}
 	if (scmp("fsub")) {return op_fsub(vitem);}
 	if (scmp("fdiv")) {return op_fdiv(vitem);}
-	if (scmp("fmul")) {return op_(vitem);}
+	if (scmp("fmul")) {return op_fmul(vitem);}
 	if (scmp("fsqrt")) {return op_fsqrt(vitem);}
 	if (scmp("fabs")) {return op_fabs(vitem);}
 	if (scmp("b")) {return op_b(vitem);}
@@ -28,12 +28,19 @@ uint32_t encode_to_op(vector<string> vitem) {
 	if (scmp("mflr")) {return op_mflr(vitem);}
 	if (scmp("mtlr")) {return op_mtlr(vitem);}
 	if (scmp("cmpwi")) {return op_cmpwi(vitem);}
-	if (scmp("cmpw")) {return op_cpmw(vitem);}
+	if (scmp("cmpw")) {return op_cmpw(vitem);}
 	if (scmp("fcmp")) {return op_fcmp(vitem);}
 	if (scmp("ld")) {return op_ld(vitem);}
 	if (scmp("st")) {return op_st(vitem);}
 	if (scmp("fld")) {return op_fld(vitem);}
 	if (scmp("fst")) {return op_fst(vitem);}
+	if (scmp(".text")) {return set_txt(vitem);}
+	if (scmp(".align")) {return set_align(vitem);}
+	if (scmp(".globl")) {return set_globl(vitem);}
+	
+	if (vitem[0].find_last_of(':') == vitem[0].length()-1) {
+		return set_label(vitem);
+	}
 
 	uint32_t other = 0xffffffff;
 	return other;

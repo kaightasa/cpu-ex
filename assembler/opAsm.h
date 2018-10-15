@@ -9,10 +9,12 @@ using namespace std;
 
 vector<string> StringSplit(const string, char);
 
-uint32_t getrD(string);
-uint32_t getrA(string);
-uint32_t getrB(string);
-uint32_t getsimm16(string);
+uint32_t get_rD(string);
+uint32_t get_rA(string);
+uint32_t get_rB(string);
+uint32_t get_simm16(string);
+uint32_t get_imm5(string);
+uint32_t get_simm26(string);
 
 uint32_t op_li(vector<string>);
 uint32_t op_mr(vector<string>);
@@ -43,5 +45,10 @@ uint32_t op_ld(vector<string>);
 uint32_t op_st(vector<string>);
 uint32_t op_fld(vector<string>);
 uint32_t op_fst(vector<string>);
+
+uint32_t set_txt(vector<string>);
+uint32_t set_align(vector<string>);
+uint32_t set_globl(vector<string>);
+uint32_t set_label(vector<string>);
 
 #endif //OPASM_H_
