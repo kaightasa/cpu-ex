@@ -4,8 +4,10 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <arpa/inet.h>
 #include "encode.h"
 #include "opAsm.h"
+
 
 
 using namespace std;
@@ -53,7 +55,13 @@ int main(int argc, char** argv) {
 	cout << "open inputfile..." << endl;
 	ifstream filein(argv[1]);
 	cout << "open outputfile..." << endl;
-	ofstream fileout(argv[2]);
+	/*ofstream fileout(argv[2]);*/
+	ofstream fileout;
+	fileout.open(argv[2], ios::out|ios::binary|ios::trunc);
+	if (!fileout) {
+		cerr << "cannnot open " << argv[2] << endl;
+		return 1;
+	}
 
 	uint32_t op;
 	int linenum = 0;
@@ -61,6 +69,9 @@ int main(int argc, char** argv) {
 	string line;
 	while (getline(filein, line)) {
 		//line の処理
+		if (line == "") {
+			continue;
+		}
 		cout << "deal with " << line << endl;
 		linenum++;
 		op = encode(line);
@@ -74,7 +85,9 @@ int main(int argc, char** argv) {
 		}
 		//simulator用にバイナリ出力に直す
 		cout << hex << op << endl;
-		fileout << hex << op << endl;
+		/*fileout << hex << op << endl;*/
+		uint32_t opout = ntohl(op);
+		fileout.write((char*)&opout, sizeof(uint32_t));
 		PC += 4;
 	}
 	cout << "finish reading!" << endl;

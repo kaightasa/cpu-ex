@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "instruction.h"
+#define DATA_ADDR 0x10000
 
 using namespace std;
 
@@ -13,7 +14,7 @@ extern vector<float> FPR;
 extern uint32_t CR;
 extern uint32_t LR;
 extern uint32_t CTR;
-extern uint32_t* DATA_MEM;
+extern uint32_t DATA_MEM[DATA_ADDR];
 extern uint32_t PC;
 extern uint32_t OP;
 

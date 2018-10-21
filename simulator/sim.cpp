@@ -19,12 +19,12 @@ uint32_t CR = 0;//コンディションレジスタ
 
 uint32_t LR = 0;//リンクレジス\タ
 uint32_t CTR = 0;//カウントレジスタ
-uint32_t INST_MEM[INST_ADDR] = {};//命令のバイナリを読み込む
+uint32_t INST_MEM[INST_ADDR] = {};//命令のバイナリを読み込むエンディアンに注意!
 
 uint32_t DATA_MEM[DATA_ADDR] = {};//データを保存するメモリ
 
-uint32_t PC = 0;
-uint32_t OP = 0;
+uint32_t PC;
+uint32_t OP;
 
 //bitを取り出す
 /*static inline uint32_t bits(uint32_t inst, unsigned int i, unsigned int j) {
@@ -37,23 +37,30 @@ void debug();
 
 #define SHOWGPR()\
 	do { \
+		int num = 0;\
 		vector<uint32_t>::iterator itr;\
-		for (itr = GPR.begin(); itr != GPR.end(); itr++) {cout << hex << *itr << " ";} \
+		for (itr = GPR.begin(); itr != GPR.end(); itr++) {\
+			cout << "GPR[" << num << "]: ";\
+			num++;\
+			cout << hex << *itr << dec <<  ", ";}\
 		cout << endl;}\
 	while (0)
 
 #define SHOWFPR()\
 	do { \
+		int numf = 0;\
 		vector<float>::iterator itr;\
-		for (itr = FPR.begin(); itr != FPR.end(); itr++) {cout << hex << *itr << " ";} \
+		for (itr = FPR.begin(); itr != FPR.end(); itr++) {\
+			cout << "GPR[" << numf << "]: ";\
+			cout << hex << *itr << dec <<  ", ";}\
 		cout << endl;}\
 	while (0)
 
-#define SHOWCR() cout << hex << CR << endl
-#define SHOWLR() cout << hex << LR << endl
-#define SHOWCTR() cout << hex << CTR << endl
-#define SHOWPC() cout << hex << PC << endl
-#define SHOWOP() cout << hex << OP << endl
+#define SHOWCR() cout << hex << CR << dec << endl
+#define SHOWLR() cout << hex << LR << dec << endl
+#define SHOWCTR() cout << hex << CTR << dec << endl
+#define SHOWPC() cout << hex << PC << dec << endl
+#define SHOWOP() cout << hex << OP << dec << endl
 
 void debug() {
 	while (1) {
@@ -90,6 +97,7 @@ int main(int argc, char**argv) {
 	}
 	FILE* binary;
 
+	cout << "opening binary file..." << endl;
 	binary = fopen(argv[1], "rb");
 	if (!binary) {
 		cerr << "cannot open file" << endl;
@@ -98,19 +106,25 @@ int main(int argc, char**argv) {
 
 	size_t cnt;
 	size_t pos = 0;
-	while (cnt = fread(&INST_MEM[pos], 4, 2048, binary)) {
+	cout << "reading instruction..." << endl;
+	while ((cnt = fread(&INST_MEM[pos], 4, 2048, binary))) {
 		pos += cnt;
 	} 
-	int lastPc = pos;
+	int lastPC = pos;
 	fclose(binary);
+	cout << "end reading!" << endl;
 
-	while(PC <= lastPc) {
+	cout << "start execution..." << endl;
+	PC = 0;
+	while(PC < lastPC) {
 		int result = do_op();
-		if (!result) {
-			cerr << "error at PC:" << hex << PC << endl;
+		if (result) {
+			cerr << "error at PC:" << hex << (PC << 2) << dec << endl;
 			cerr << "move to debug mode" << endl;
 			debug();
 			return EXIT_FAILURE;
 		}
 	}
-} 
+	cout << "finish execution!" << endl;
+	debug();
+}
