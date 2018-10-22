@@ -1,8 +1,8 @@
 init:
-	li r1, 4
-	li r2, 1
+	li r3, 4
+	li r4, 1
 calc:
-	addi r2, r2, 1
+	addi r4, r4, 1
 compare:
-	cmpw r2, r1
+	cmpw r4, r3
 	blt calc

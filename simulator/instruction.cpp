@@ -137,7 +137,7 @@ void sub_reg() {
 		cerr << "cannot write in GPR[0] : sub" << endl;
 		exit(1);
 	}
-	GPR[rD] = GPR[rA] + (GPR[rB] ^ (1 << 31));
+	GPR[rD] = GPR[rA] - GPR[rB];
 }
 
 
@@ -167,7 +167,7 @@ void fadd() {
 		cerr << "cannot write in FPR[0] : fadd" << endl;
 		exit(1);
 	}
-	FPR[rD] = FPR[rA] + GPR[rB];
+	FPR[rD] = FPR[rA] + FPR[rB];
 }
 void fsub() {
 	initReg();
@@ -175,7 +175,7 @@ void fsub() {
 		cerr << "cannot write in FPR[0] : fsub" << endl;
 		exit(1);
 	}
-	FPR[rD] = FPR[rA] + (GPR[rB] ^ (1 << 31));
+	FPR[rD] = FPR[rA] - FPR[rB];
 }
 void fdiv() {
 	initReg();
@@ -183,7 +183,7 @@ void fdiv() {
 		cerr << "cannot write in FPR[0] : fsub" << endl;
 		exit(1);
 	}
-	FPR[rD] = FPR[rA] / GPR[rB];
+	FPR[rD] = FPR[rA] / FPR[rB];
 }
 void fmul() {
 	initReg();
@@ -191,7 +191,7 @@ void fmul() {
 		cerr << "cannot write in FPR[0] : fmul" << endl;
 		exit(1);
 	}
-	FPR[rD] = FPR[rA] * GPR[rB];
+	FPR[rD] = FPR[rA] * FPR[rB];
 }
 void fsqrt() {
 	rD = get_rD(OP);
@@ -326,6 +326,7 @@ void load() {
 		cerr << "cannot load: memory overflow" << " " << hex << addr << endl;
 		exit(1);
 	}
+	//cout << "load " <<  DATA_MEM[addr] << endl;
 	GPR[rD] = DATA_MEM[addr];
 }
 void store() {
@@ -335,6 +336,7 @@ void store() {
 		cerr << "cannot store: memory overflow" << " " << hex << addr << endl;
 		exit(1);
 	}
+	//cout << "store " << GPR[rD] << endl;
 	DATA_MEM[addr] = GPR[rD];
 }
 void fload() {

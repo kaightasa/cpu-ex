@@ -45,9 +45,8 @@ uint32_t encode_to_op(vector<string> vitem) {
 	if (vitem[0].find_last_of(':') == vitem[0].length()-1) {
 		return set_label(vitem);
 	}
+	return 0x80000000;
 
-	uint32_t other = 0xffffffff;
-	return other;
 }
 
 

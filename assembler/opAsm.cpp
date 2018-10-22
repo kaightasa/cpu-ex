@@ -40,7 +40,7 @@ uint32_t get_rB(const string str) {
 }
 uint32_t get_simm16(const string str) {
 	int r = stoi(str);
-	return r;
+	return (r & 0x0000FFFF);
 }
 uint32_t get_imm5(const string str) {
 	int r = stoi(str);
@@ -205,9 +205,9 @@ uint32_t set_globl(const vector<string>& vitem) {
 	return 0;
 }
 uint32_t set_label(const vector<string>& vitem) {
-	vector<string> vtmp = StringSplit(vitem[0], ':');
+	/*vector<string> vtmp = StringSplit(vitem[0], ':');
 	labelMap[vtmp[0]] = PC;
-	cout << "PC: "<<  hex << PC << dec << endl;
+	*/cout << "PC: "<<  hex << PC << dec << endl;
 	return 0;
 }
 	

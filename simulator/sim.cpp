@@ -31,6 +31,8 @@ uint32_t OP;
 	return (inst & ((1 << (i+1)) - (1 << j))) >> j;
 }*/
 	
+// レジスタに値を設定　引数などに使用
+void initialize();
 //debug用に各レジスタを出力する関数をつくる
 
 void debug();
@@ -40,7 +42,7 @@ void debug();
 		int num = 0;\
 		vector<uint32_t>::iterator itr;\
 		for (itr = GPR.begin(); itr != GPR.end(); itr++) {\
-			cout << "GPR[" << num << "]: ";\
+			cout << "GPR[" << hex <<  num << "]: " << dec;\
 			num++;\
 			cout << *itr <<  ", ";}\
 		cout << endl;}\
@@ -51,8 +53,9 @@ void debug();
 		int numf = 0;\
 		vector<float>::iterator itr;\
 		for (itr = FPR.begin(); itr != FPR.end(); itr++) {\
-			cout << "FPR[" << numf << "]: ";\
-			cout << hex << *itr << dec <<  ", ";}\
+			cout << "FPR[" <<  hex <<  numf  << dec << "]: ";\
+			numf++;\
+			cout << *itr << ", ";}\
 		cout << endl;}\
 	while (0)
 
@@ -61,6 +64,50 @@ void debug();
 #define SHOWCTR() cout << hex << CTR << dec << endl
 #define SHOWPC() cout << hex << PC << dec << endl
 #define SHOWOP() cout << hex << OP << dec << endl
+void initialize() {
+	cout << "initialization..." << endl;
+	while(1){
+		cout << "which register to set value? put a number...GPR--0, FPR--1, end--2" << endl;
+		int x;
+		cin >> x;
+		switch(x) {
+		case 0:
+			while (1) {
+				cout << "put the index of GPR...put 0 to end setting" << endl;
+				int index;
+				cin >> index;
+				if (0 == index) {break;}
+				cout << "put the value of GPR[" << index << "]: ";
+				uint32_t value;
+				cin >> value;
+				GPR[index] = value;
+			}
+			cout << "end setting GPR" << endl;
+			SHOWGPR();
+			break;
+		case 1:
+			while (1) {
+				cout << "put the index of FPR...put 0 to end setting" << endl;
+				int index;
+				cin >> index;
+				if (0 == index) {break;}
+				cout << "put the value of FPR[" << index << "]: ";
+				float value;
+				cin >> value;
+				FPR[index] = value;
+			}
+			cout << "end setting FPR" << endl;
+			SHOWFPR();
+			break;
+		case 2:
+			cout << "end initialization..." << endl;
+			return;
+		default:
+			cout << "pls put 0~2" << endl;break;
+		}
+	}
+}
+		
 
 void debug() {
 	while (1) {
@@ -83,7 +130,7 @@ void debug() {
 		case 6:
 			SHOWOP();break;
 		case 7:
-			return;;
+			return;
 		default:
 			cout << "pls put 0~7" << endl;break;
 		}
@@ -113,9 +160,12 @@ int main(int argc, char**argv) {
 	int lastPC = pos;
 	fclose(binary);
 	cout << "end reading!" << endl;
+	
+	initialize();
 
 	cout << "start execution..." << endl;
 	PC = 0;
+	GPR[1] = 0x8000;//stack
 	while(PC < lastPC) {
 		int result = do_op();
 		if (result) {
@@ -125,6 +175,7 @@ int main(int argc, char**argv) {
 			return EXIT_FAILURE;
 		}
 	}
-	cout << "finish execution!" << endl;
+	cout << "finish execution! return value: " << endl;
+	cout << "GPR[3]:" << hex << GPR[3]<< << " FPR[1]:" << FPR[1] <<  hex << endl;
 	debug();
 }
