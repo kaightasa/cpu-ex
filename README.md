@@ -18,7 +18,7 @@ simulatorのdebugが終わり次第step実行等便利な機能を実装する
 コマンドラインで> xxd ~.bin
 vim で :%!xxd  戻すときは :%!xxd -r
 
-add.sを読み込んで実行できた。
-
+シミュレータで動くのが確認できた命令
+li addi add slwi srwi blt cmpw
 
 

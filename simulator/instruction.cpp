@@ -149,7 +149,7 @@ void l_shift_lg_imm() {
 		cerr << "cannot write in GPR[0] : slwi" << endl;
 		exit(1);
 	}
-	GPR[rD] = GPR[rA] << imm5;
+	GPR[rD] = (GPR[rA] << imm5);
 }
 void r_shift_lg_imm() {
 	initImm5();
@@ -157,7 +157,7 @@ void r_shift_lg_imm() {
 		cerr << "cannot write in GPR[0] : srwi" << endl;
 		exit(1);
 	}
-	GPR[rD] = GPR[rA] >> imm5;
+	GPR[rD] = (GPR[rA] >> imm5);
 }
 
 //float

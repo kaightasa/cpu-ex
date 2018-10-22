@@ -86,31 +86,31 @@ int do_op() {
 			branch_link_reg();break;
 		case 20:
 			cout << "opname mflr" << endl;
-			move_from_link();break;
+			move_from_link();PC++;break;
 		case 21:
 			cout << "opname mtlr" << endl;
-			move_to_link();break;
+			move_to_link();PC++;break;
 		case 22:
 			cout << "opname cmpwi" << endl;
-			cmp_imm();break;
+			cmp_imm();PC++;break;
 		case 23:
 			cout << "opname cmpw" << endl;
-			cmp_reg();break;
+			cmp_reg();PC++;break;
 		case 24:
 			cout << "opname fcmp" << endl;
-			fcmp_reg();break;
+			fcmp_reg();PC++;break;
 		case 25:
 			cout << "opname ld" << endl;
-			load();break;
+			load();PC++;break;
 		case 26:
 			cout << "opname st" << endl;
-			store();break;
+			store();PC++;break;
 		case 27:
 			cout << "opname fld" << endl;
-			fload();break;
+			fload();PC++;break;
 		case 28:
 			cout << "opname fst" << endl;
-			fstore();break;
+			fstore();PC++;break;
 		default:
 			cerr << "undefined instruction" << endl;
 			return 1;

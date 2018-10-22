@@ -42,7 +42,7 @@ void debug();
 		for (itr = GPR.begin(); itr != GPR.end(); itr++) {\
 			cout << "GPR[" << num << "]: ";\
 			num++;\
-			cout << hex << *itr << dec <<  ", ";}\
+			cout << *itr <<  ", ";}\
 		cout << endl;}\
 	while (0)
 
@@ -51,7 +51,7 @@ void debug();
 		int numf = 0;\
 		vector<float>::iterator itr;\
 		for (itr = FPR.begin(); itr != FPR.end(); itr++) {\
-			cout << "GPR[" << numf << "]: ";\
+			cout << "FPR[" << numf << "]: ";\
 			cout << hex << *itr << dec <<  ", ";}\
 		cout << endl;}\
 	while (0)

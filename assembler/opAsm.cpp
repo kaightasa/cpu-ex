@@ -51,11 +51,14 @@ uint32_t get_simm26(const string str) {
 	uint32_t addr;
 	try{
 		addr = stoi(str, nullptr, 0);
+		cout << "immdiate address" << endl;
 	} catch (const std::invalid_argument& e) {
 		addr = labelMap.at(str);
+		cout << "label address: " << hex << addr << dec << endl;
 	}
-	uint32_t simm26 =  PC - addr;
-	return (simm26 & 0x03FFFFFF) >> 2;
+	uint32_t simm26 =  addr - PC;
+	cout << "simm26: "<< hex << simm26 << dec << endl;
+	return ((simm26 >> 2) & 0x03FFFFFF);
 }
 
 
@@ -204,6 +207,7 @@ uint32_t set_globl(const vector<string>& vitem) {
 uint32_t set_label(const vector<string>& vitem) {
 	vector<string> vtmp = StringSplit(vitem[0], ':');
 	labelMap[vtmp[0]] = PC;
+	cout << "PC: "<<  hex << PC << dec << endl;
 	return 0;
 }
 	
