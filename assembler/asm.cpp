@@ -111,6 +111,7 @@ int main(int argc, char** argv) {
 		op = encode(line);
 		if (op == 0x80000000) {
 			cerr << "undefined operation PC:" << PC + 4 << endl;
+			return 1;
 		}
 		if (op == 0x00000000) {
 			cout << "not operation" << endl;
