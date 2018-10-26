@@ -38,6 +38,14 @@ uint32_t encode_to_op(vector<string> vitem) {
 	if (scmp("st")) {return op_st(vitem);}
 	if (scmp("fld")) {return op_fld(vitem);}
 	if (scmp("fst")) {return op_fst(vitem);}
+
+	//added
+	if (scmp("slw")) {return op_slw(vitem);}
+	if (scmp("srw")) {return op_srw(vitem);}
+	if (scmp("bc")) {return op_bc(vitem);}
+	if (scmp("itof")) {return op_itof(vitem);}
+	if (scmp("ftoi")) {return op_ftoi(vitem);}
+
 	if (scmp(".text")) {return set_txt(vitem);}
 	if (scmp(".align")) {return set_align(vitem);}
 	if (scmp(".globl")) {return set_globl(vitem);}

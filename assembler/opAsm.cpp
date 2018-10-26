@@ -193,7 +193,30 @@ uint32_t op_fst(const vector<string>& vitem){
 	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_simm16(vitem[3]));
 }
 
+//addded
 
+
+uint32_t op_slw(const vector<string>& vitem){
+	op = (1 << 30) | (1 << 29) | (1 << 28) | (1 << 26);
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
+}
+uint32_t op_srw(const vector<string>& vitem){
+	op = (1 << 30) | (1 << 29) | (1 << 28) | (1 << 27);
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]) | get_rB(vitem[3]));
+}
+uint32_t op_bc(const vector<string>& vitem){
+	op = (1 << 30) | (1 << 29) | (1 << 28) | (1 << 27) | (1 << 26);
+
+	return (op | get_rD(vitem[1]) | get_simm16(vitem[2]));
+}
+uint32_t op_itof(const vector<string>& vitem){
+	op = (1 << 31);
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]));
+}
+uint32_t op_ftoi(const vector<string>& vitem){
+	op = (1 << 31) | (1 << 26);
+	return (op | get_rD(vitem[1]) | get_rA(vitem[2]));
+}
 
 uint32_t set_txt(const vector<string>& vitem) {
 	return 0;

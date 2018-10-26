@@ -361,3 +361,28 @@ void fstore() {
 	}
 	*((float*)&DATA_MEM[addr]) = FPR[rD];
 }
+
+//added
+
+void l_shift_lg() {
+	initReg();
+	if (rD == 0) {
+		cerr << "cannot write in GPR[0] : slw" << endl;
+		exit(1);
+	}
+	GPR[rD] = (GPR[rA] << GPR[rB]);
+}
+void r_shift_lg() {
+	initReg();
+	if (rD == 0) {
+		cerr << "cannot write in GPR[0] : srw" << endl;
+		exit(1);
+	}
+	GPR[rD] = (GPR[rA] >> GPR[rB]);
+}
+void branch_cond() {
+}
+void int_to_float() {
+}
+void float_to_int() {
+}
