@@ -60,8 +60,16 @@ uint32_t get_simm16(const string str) {
 		simm16 = stoi(str, nullptr, 0);
 		return (simm16 & 0x0000FFFF);
 	} catch (const invalid_argument& e) {
-		cerr << "error in simm16...invalid_argument" << endl;
-		return 0xFFFFFFFF;
+		try {
+			uint32_t addr = labelMap.at(str);
+			cout << "label address: " << hex << addr << dec << endl;
+			simm16 =  addr - PC;
+			cout << "simm16: "<< hex << simm16 << dec << endl;
+			return ((simm16 >> 2) & 0x0000FFFF);
+		} catch (const out_of_range&) {
+			cerr << "error in simm16...invalid_argument or undefined label" << endl;
+			return 0xFFFFFFFF;
+		}
 	}
 }
 uint32_t get_imm5(const string str) {

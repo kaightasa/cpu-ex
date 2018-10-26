@@ -2,7 +2,8 @@
 start:
 	li r3, 0x4000
 	li r4, 2
+	li r5, 1
 	#shift left...
-	slw r3, r3, r4
+	slw r6, r3, r4
 #shift right...
-	srw r3, r3, r4
+	srw r7, r3, r5
