@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "encode.h"
 
 using namespace std;
@@ -50,11 +51,14 @@ uint32_t encode_to_op(vector<string> vitem) {
 	if (scmp(".align")) {return set_align(vitem);}
 	if (scmp(".globl")) {return set_globl(vitem);}
 	
+	if (vitem[0].find_first_of("#", 0) == 0) {
+		return 0;
+	}
 	if (vitem[0].find_last_of(':') == vitem[0].length()-1) {
 		return set_label(vitem);
 	}
-	return 0x80000000;
-
+	cerr << "undefined instruction" << endl;
+	return 0xFFFFFFFF;
 }
 
 
