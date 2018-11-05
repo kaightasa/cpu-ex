@@ -6,7 +6,9 @@
 #include <sstream>
 #include <string>
 #include <fstream>
+#include <regex>
 using namespace std;
+
 
 vector<string> StringSplit(const string str, char sep) {
 	vector<string> v;
@@ -87,6 +89,11 @@ int main(int argc, char** argv) {
 		}
 	}*/
 
-	uint32_t result = (0x10000000) | (0xFFFFFFFF) | (0x00000000);
-	cout << hex << result << dec << endl;
+	/*uint32_t result = (0x10000000) | (0xFFFFFFFF) | (0x00000000);
+	cout << hex << result << dec << endl;*/
+	string str = "lo(label)";
+	regex re(R"(ha\(.*\))");
+	bool result = regex_match(str, re);
+	cout << result << endl;
+
 }
