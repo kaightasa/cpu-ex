@@ -70,3 +70,7 @@ assembler の出力の1行目に実行する機械語列のバイト数
 									2行目に_min_caml_startラベルの示すアドレスを追加　ラベルがない場合0になる
 simulatorでは_min_caml_startラベルのアドレスから命令を実行する
 
+11/9
+コンパイラからの出力ファイルをつかうときはsed -E 's/\t+/ /g' [inputfile] > [outputfile]
+breakpoint(PC)のバグを直した。
+
