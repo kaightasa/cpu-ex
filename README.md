@@ -3,38 +3,48 @@ simulator
 -----------------------------基本情報----------------------------------------
 
 powerpcの命令セットを参考にしたオリジナルの命令セットをシミュレートする
-
 /simulatorにおいてsimulatorとassemblerを一括でmake, cleanできる。
-simulator: /simulator/simulatorでmake 実行方法 ./sim --option [inputfile]    (optionなしで普通の実行。現状optionはstepとhelpのみ)
-						--stepでstep実行
-						-h, --helpでhelp
-						step実行時のコマンドはhで確認できる。
 
-						_min_caml_start ラベルの位置から実行を開始する。
 
-						simulatorのinitializationのステップで手動でレジスタの値を初期化できる。(この機能は消すかも)
+
+simulator: 
+/simulator/simulatorでmake 実行方法 ./sim --option [inputfile]    (optionなしで普通の実行。現状optionはstepとhelpのみ)
+--stepでstep実行
+-h, --helpでhelp
+
+step実行時のコマンドはhで確認できる。
+
+_min_caml_start ラベルの位置から実行を開始する。
+
+simulatorのinitializationのステップで手動でレジスタの値を初期化できる。(この機能は消すかも)
+
+
 
 assembler: /simulator/assemblerでmake 実行方法 ./asm [inputfile] [outputfile]
-						.sファイルのコメント #開始で、1行に渡ってことが可能。
-						出力の先頭２行はバイト数、_min_caml_startの位置
 
-						tabを読めないのでコンパイラからの出力ファイルをつかうときはsed -E 's/\t+/ /g' [inputfile] > [outputfile]
+.sファイルのコメント #開始で、1行に渡ってことが可能。
+出力の先頭２行はバイト数、_min_caml_startの位置
+
+tabを読めないのでコンパイラからの出力ファイルをつかうときはsed -E 's/\t+/ /g' [inputfile] > [outputfile]
+
+
 
 共通:
-			どちらのディレクトリでもout.binという名前のファイルはmake cleanで消える。
+どちらのディレクトリでもout.binという名前のファイルはmake cleanで消える。
 
-			基本的に16進数表記。(dec)とついてるものだけが10進
+基本的に16進数表記。(dec)とついてるものだけが10進
 
-			stack
-				stackはデータメモリのアドレスが大きい場所を使っているので注意。
-				stackpointerは初めGPR[3]に0x8000がはいっている。
-				GPR[0]には書き込まないように。
-				GPR[3]はスタックポインタとして使う。
-				計算が終わったあとのデフォルトの返り値はGPR[1]とFPR[1]。それ以外はレジスタの中身をみる。
+stack
+	stackはデータメモリのアドレスが大きい場所を使っているので注意。
+	stackpointerは初めGPR[3]に0x8000がはいっている。
+	GPR[3]はスタックポインタとして使う。
 
-			バイナリファイルをみたいとき　
-				コマンドラインで> xxd ~.bin
-				vim で :%!xxd  戻すときは :%!xxd -r
+GPR[0]には書き込まないように。
+計算が終わったあとのデフォルトの返り値はGPR[1]とFPR[1]。それ以外はレジスタの中身をみる。
+
+バイナリファイルをみたいとき　
+	コマンドラインで> xxd ~.bin
+	vim で :%!xxd  戻すときは :%!xxd -r
 
 ----------------------------重要な更新と直近の更新----------------------------------------------
 
@@ -51,6 +61,8 @@ assembler の出力の1行目に実行する機械語列のバイト数
 2行目に_min_caml_startラベルの示すアドレスを追加　ラベルがない場合0になる
 
 simulatorでは_min_caml_startラベルのアドレスから命令を実行する
+
+
 
 11/9
 breakpoint(PC)のバグを直した。
