@@ -55,7 +55,6 @@ uint32_t CR = 0;//コンディションレジスタ
 //CR0~CR7の8個の4bitフィールド
 
 uint32_t LR = 0;//リンクレジスタ
-uint32_t CTR = 0;//カウントレジスタ
 uint32_t INST_MEM[INST_ADDR] = {};//命令のバイナリを読み込むエンディアンに注意!
 
 uint32_t DATA_MEM[DATA_ADDR] = {};//データを保存するメモリ
@@ -75,6 +74,8 @@ void initialize();
 //debug用に各レジスタを出力する関数をつくる
 
 void debug();
+
+int instNum;//何番目の命令か
 
 #define SHOWGPR()\
 do { \
@@ -100,11 +101,11 @@ while (0)
 
 #define SHOWCR() cout << hex << CR << dec << endl
 #define SHOWLR() cout << hex << LR << dec << endl
-#define SHOWCTR() cout << hex << CTR << dec << endl
+//#define SHOWCTR() cout << hex << CTR << dec << endl
 #define SHOWPC() cout << hex << (PC<<2) << dec << endl
 #define SHOWOP() cout << hex << OP << dec << endl
 
-void initialize() {
+void initialize() {//手動での初期化　後に消すかも
 string index;
 int intindex;
 int intvalue;
@@ -180,7 +181,7 @@ while(1){
 }
 }
 
-void debug() {
+void debug() {//レジスタの中身を見る
 cout << "which to show? put char..." << endl;
 while (1) {
 	cout << "GPR 'g', FPR 'f', CondR 'c', LinkR 'l', PC 'p', operation 'o', end 'e'" << endl;
@@ -209,22 +210,26 @@ while (1) {
 }
 }
 
-int normal() {
-PC = mincamlStart >> 2;
-GPR[3] = 0x8000;//stack
-while(PC < lastPC) {
-	int result = do_op();
-	if (result) {
-		cerr << "error at PC:" << hex << (PC << 2) << dec << endl;
-		cerr << "move to debug mode" << endl;
-		debug();
-		return EXIT_FAILURE;
+int normal() {//通常実行
+	instNum = 0;
+	PC = mincamlStart >> 2;
+	GPR[3] = 0x8000;//stack
+	while(PC < lastPC) {
+		int result = do_op();
+		if (result) {
+			cerr << "error at PC:" << hex << (PC << 2) << dec << endl;
+			cerr << "the number of executed instructions: " << dec << instNum << endl;
+			cerr << "move to debug mode" << endl;
+			debug();
+			return EXIT_FAILURE;
+		}
+		instNum++;
 	}
-}
-return 0;
+	return 0;
 }
 
-int step() {
+int step() {//step実行
+	instNum = 0;
 	cout << "execute by step..." << endl;
 	PC = mincamlStart >> 2;
 	GPR[3] = 0x8000;//stack
@@ -236,15 +241,16 @@ int step() {
 	uint32_t nxtOP;
 	while(PC < lastPC) {
 		bool next = 0;
-		while (!next) {
+		while (!next) {//次のステップに進むかどうかをnextフラグで判断
+			cout << "the number of executed instructions (dec): " << dec << instNum << endl;
 			cout << "(step) put 'h' for help...";
 			char x;
 			cin >> x;
 			switch (x) {
-			case 'n':
+			case 'n'://次に進む
 				next = 1;
 				break;
-			case 'b':
+			case 'b'://breakpointの設定
 				cout << "set breakpoint...current PC is " << hex << (PC << 2) <<dec << endl;
 				cout << "current breakpoint is..." << endl;
 				for (bitr = breakpoint.begin(), bi = 0; bitr != breakpoint.end(); bitr++, bi++) {
@@ -278,7 +284,7 @@ int step() {
 					}
 				}
 				break;
-			case 'r':
+			case 'r'://breakpointまで走る
 				cout << "run to breakpoint" << endl;
 				while (PC < lastPC) {
 					bitr = find(breakpoint.begin(), breakpoint.end(), PC);
@@ -293,6 +299,7 @@ int step() {
 						debug();
 						return EXIT_FAILURE;
 					}
+					instNum++;
 				}
 				if (PC >= lastPC) {
 					cout << "reached end of execution" << endl;
@@ -315,7 +322,7 @@ int step() {
 				nxtOP = htonl(INST_MEM[PC]);
 				cout << "next OP: " << hex << nxtOP << dec << endl;
 				break;
-			case 'm':
+			case 'm'://メモリを見る
 				while (1) {
 					cout << "check data mem...put address of mem in hex (put e to end): ";
 					string address;
@@ -332,8 +339,8 @@ int step() {
 					}
 				}
 				break;
-			case 's':
-				cout << "stack pointer (GPR1) is: " << hex << GPR[1] << dec << endl;
+			case 's'://stackを見る
+				cout << "stack pointer (GPR3) is: " << hex << GPR[3] << dec << endl;
 				while (1) {
 					cout << "check stack...put address of mem in hex (put e to end): ";
 					string address;
@@ -350,9 +357,9 @@ int step() {
 					}
 				}
 				break;
-			case 'q':
+			case 'q'://強制終了
 				return EXIT_FAILURE;
-			case 'h':
+			case 'h'://help
 				cout << "'n'			next step" << endl
 						<< "'b'			set breakpoint" << endl
 						<< "'r'			run to breakpoint" << endl
@@ -370,7 +377,7 @@ int step() {
 				cout << "undefined...look help.";
 				break;
 			}//switch end
-		}//end while
+		}//end while(!next)
 
 		int result = do_op();
 		if (result) {
@@ -379,9 +386,11 @@ int step() {
 			debug();
 			return EXIT_FAILURE;
 		}
+		instNum++;
 	}
 	return 0;
 }
+
 int main(int argc, char**argv) {
 	/*if (argc != 2) {
 		cerr << "invailed argument: did you specified input file?" << endl;
@@ -399,6 +408,7 @@ int main(int argc, char**argv) {
 		return EXIT_FAILURE;
 	} 
 
+	//機械語の読み取り
 	size_t cnt;
 	size_t pos = 0;
 	cout << "reading instruction..." << endl;
@@ -412,8 +422,9 @@ int main(int argc, char**argv) {
 	} 
 	lastPC = pos;
 	fclose(binary);
-	cout << "end reading!" << endl;
+	cout << "end reading!" << endl;//読み取り終わり
 	
+	GPR[3] = 0x8000;
 	initialize();
 
 	cout << "start execution..." << endl;
@@ -425,8 +436,9 @@ int main(int argc, char**argv) {
 		result = normal();
 	}
 	if (!result) {
-		cout << "finish execution! return value: " << endl;
-		cout << "GPR[1]:" << hex << GPR[1]<< " FPR[0]:" << FPR[0] <<  hex << endl;
+		cout << "finish execution!" << endl;
+		cout << "return value is... GPR[1]:" << hex << GPR[1]<< dec << " FPR[0]:" << FPR[0] << endl;
+		cout << "the number of total instruction is (dec) : " << dec << instNum << endl;
 		debug();
 	}
 }
