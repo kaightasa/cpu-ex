@@ -91,9 +91,41 @@ int main(int argc, char** argv) {
 
 	/*uint32_t result = (0x10000000) | (0xFFFFFFFF) | (0x00000000);
 	cout << hex << result << dec << endl;*/
-	string str = "lo(label)";
+	/*string str = "lo(label)";
 	regex re(R"(ha\(.*\))");
 	bool result = regex_match(str, re);
-	cout << result << endl;
+	cout << result << endl;*/
 
+	string str = "	.globl _min_caml_start";
+	string trimmedStr = trim(str);
+	cout << "trimmedStr: " << trimmedStr << endl;
+	vector<string> vitem;
+	vector<string> vitemtmp;
+	vector<string> vitem1 = StringSplit(trimmedStr, '\t');
+	vector<string>::iterator itr;
+	cout << "split by tab:";
+	for (itr = vitem1.begin(); itr != vitem1.end(); itr++) {
+		cout << " [" << *itr << "]";
+		vector<string> vitem2 = StringSplit(*itr, ' ');
+		vector<string>::iterator itr2;
+		for (itr2 = vitem2.begin(); itr2 != vitem2.end(); itr2++) {
+				vitemtmp.push_back(*itr2);
+		}
+	}
+	cout << endl << "split by space:";
+	vector<string>::iterator itrtmp;
+	for (itrtmp = vitemtmp.begin(); itrtmp != vitemtmp.end(); itrtmp++) {
+		cout << " [" << *itrtmp << "]";
+		vector<string> vitem3 = StringSplit(*itrtmp, ',');
+		vector<string>::iterator itr3;
+		for (itr3 = vitem3.begin(); itr3 != vitem3.end(); itr3++) {
+				vitem.push_back(*itr3);
+		}
+	}
+	cout << endl << "split by ,:";
+	vector<string>::iterator itrz;
+	for (itrz = vitem.begin(); itrz != vitem.end(); itrz++) {
+		cout << " [" << *itrz << "]";
+	}
+	cout << endl;
 }
