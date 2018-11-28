@@ -30,6 +30,15 @@ string trim(const string& str, const char* trimCharacterList = "\t\v\r\n") {
 	return result;
 }
 
+uint32_t bits(uint32_t inst, unsigned int i, unsigned int j) {
+	return (inst & ((1 << (i + 1)) - (1 << j))) >> j;
+}
+static inline uint32_t getBit(uint32_t x, int max, int min) {
+	uint32_t tmp = x << (31 - max);
+	tmp = tmp >> (31-max+min);
+	return tmp;
+}
+
 int main(int argc, char** argv) {
 	/*uint32_t a = 0x0000000F;
 	cout << (int)a << endl;
@@ -96,7 +105,7 @@ int main(int argc, char** argv) {
 	bool result = regex_match(str, re);
 	cout << result << endl;*/
 
-	string str = "	.globl _min_caml_start";
+/*	string str = "	.globl _min_caml_start";
 	string trimmedStr = trim(str);
 	cout << "trimmedStr: " << trimmedStr << endl;
 	vector<string> vitem;
@@ -127,5 +136,29 @@ int main(int argc, char** argv) {
 	for (itrz = vitem.begin(); itrz != vitem.end(); itrz++) {
 		cout << " [" << *itrz << "]";
 	}
-	cout << endl;
+	cout << endl;*/
+
+/*	uint32_t x = 0xAFCFBEFF;
+	uint32_t tmp = getBit(x, 19,4);
+	cout << hex << tmp << endl;*/
+
+	uint32_t r0 = 0xffffffff;
+	int32_t r1 = int32_t(r0);
+	int32_t r2 = 0;
+
+	if (r1 < r2) {
+		cout << r0 << endl;
+		cout << "r1 is less than r2" << endl;
+		cout  << hex << "r1: " << r1 << "  r2: " << r2 << endl;
+	} else if (r1 == r2) {
+		cout << r0 << endl;
+		cout << "r1 equals to r2" << endl;
+		cout << hex << "r1: " << r1 << "  r2: " << r2 << endl;
+	} else {
+		cout << r0 << endl;
+		cout << "r1 is bigger than r2" << endl;
+		cout << hex << "r1: " << r1 << "  r2: " << r2 << endl;
+	}
 }
+
+
