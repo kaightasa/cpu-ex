@@ -41,7 +41,7 @@ uint32_t finv_f(uint32_t x) {
 	m = (xm == 0) ? 0 : getBit32(tmp_m, 22, 0);
 
 	uint32_t y;
-	y = (s << 31) | (e << 24) | m;
+	y = (s << 31) | (e << 23) | m;
 	return y;
 }
 
