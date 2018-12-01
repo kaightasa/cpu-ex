@@ -5,6 +5,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "instruction.h"
+#include "float/fadd.h"
+#include "float/fsub.h"
+#include "float/fmul.h"
+#include "float/finv.h"
+#include "float/fdiv.h"
 #define DATA_ADDR 0x10000
 
 using namespace std;
@@ -138,25 +143,41 @@ void fadd() {
 	rD = get_rD(OP);
 	rA = get_rA(OP);
 	rB = get_rB(OP);
-	FPR[rD] = FPR[rA] + FPR[rB];
+	//FPR[rD] = FPR[rA] + FPR[rB];
+	uint32_t x1 = *(uint32_t*)&FPR[rA];
+	uint32_t x2 = *(uint32_t*)&FPR[rB];
+	uint32_t tmp = fadd_f(x1, x2);
+	FPR[rD] = *(float*)&tmp;
 }
 void fsub() {
 	rD = get_rD(OP);
 	rA = get_rA(OP);
 	rB = get_rB(OP);
 	FPR[rD] = FPR[rA] - FPR[rB];
+	uint32_t x1 = *(uint32_t*)&FPR[rA];
+	uint32_t x2 = *(uint32_t*)&FPR[rB];
+	uint32_t tmp = fsub_f(x1, x2);
+	FPR[rD] = *(float*)&tmp;
 }
 void fdiv() {
 	rD = get_rD(OP);
 	rA = get_rA(OP);
 	rB = get_rB(OP);
-	FPR[rD] = FPR[rA] / FPR[rB];
+	FPR[rD] = FPR[rA]/FPR[rB];
+/*	uint32_t x1 = *(uint32_t*)&FPR[rA];
+	uint32_t x2 = *(uint32_t*)&FPR[rB];
+	uint32_t tmp = fdiv_f(x1, x2);
+	FPR[rD] = *(float*)&tmp;*/
 }
 void fmul() {
 	rD = get_rD(OP);
 	rA = get_rA(OP);
 	rB = get_rB(OP);
-	FPR[rD] = FPR[rA] * FPR[rB];
+	FPR[rD] = FPR[rA]*FPR[rB];
+	/*uint32_t x1 = *(uint32_t*)&FPR[rA];
+	uint32_t x2 = *(uint32_t*)&FPR[rB];
+	uint32_t tmp = fmul_f(x1, x2);
+	FPR[rD] = *(float*)&tmp;*/
 }
 void fsqrt() {
 	rD = get_rD(OP);

@@ -33,9 +33,14 @@ string trim(const string& str, const char* trimCharacterList = "\t\v\r\n") {
 uint32_t bits(uint32_t inst, unsigned int i, unsigned int j) {
 	return (inst & ((1 << (i + 1)) - (1 << j))) >> j;
 }
-static inline uint32_t getBit(uint32_t x, int max, int min) {
+uint32_t getBit(uint32_t x, int max, int min) {
 	uint32_t tmp = x << (31 - max);
 	tmp = tmp >> (31-max+min);
+	return tmp;
+}
+uint64_t getBit(uint64_t x, int max, int min) {
+	uint64_t tmp = x << (63 - max);
+	tmp = tmp >> (63-max+min);
 	return tmp;
 }
 
@@ -138,11 +143,17 @@ int main(int argc, char** argv) {
 	}
 	cout << endl;*/
 
-/*	uint32_t x = 0xAFCFBEFF;
+	uint32_t x = 0xAFCFBEFF;
 	uint32_t tmp = getBit(x, 19,4);
-	cout << hex << tmp << endl;*/
+	cout << "x " << hex << x << endl;
+	cout << "x 19~4 " << tmp << endl;
 
-	uint32_t r0 = 0xffffffff;
+	uint64_t y = 0xDF489AFCFBEFF000;
+	uint64_t tmp2 = getBit(y, 55,0);
+	cout << "y " << hex << y << endl;
+	cout << "y 55~0 " << tmp2 << endl;
+
+	/*uint32_t r0 = 0xffffffff;
 	int32_t r1 = int32_t(r0);
 	int32_t r2 = 0;
 
@@ -158,7 +169,7 @@ int main(int argc, char** argv) {
 		cout << r0 << endl;
 		cout << "r1 is bigger than r2" << endl;
 		cout << hex << "r1: " << r1 << "  r2: " << r2 << endl;
-	}
+	}*/
 }
 
 
