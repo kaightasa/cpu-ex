@@ -164,7 +164,7 @@ void fdiv() {
 	rA = get_rA(OP);
 	rB = get_rB(OP);
 	FPR[rD] = FPR[rA]/FPR[rB];
-/*	uint32_t x1 = *(uint32_t*)&FPR[rA];
+	/*uint32_t x1 = *(uint32_t*)&FPR[rA];
 	uint32_t x2 = *(uint32_t*)&FPR[rB];
 	uint32_t tmp = fdiv_f(x1, x2);
 	FPR[rD] = *(float*)&tmp;*/
@@ -173,11 +173,10 @@ void fmul() {
 	rD = get_rD(OP);
 	rA = get_rA(OP);
 	rB = get_rB(OP);
-	FPR[rD] = FPR[rA]*FPR[rB];
-	/*uint32_t x1 = *(uint32_t*)&FPR[rA];
+	uint32_t x1 = *(uint32_t*)&FPR[rA];
 	uint32_t x2 = *(uint32_t*)&FPR[rB];
 	uint32_t tmp = fmul_f(x1, x2);
-	FPR[rD] = *(float*)&tmp;*/
+	FPR[rD] = *(float*)&tmp;
 }
 void fsqrt() {
 	rD = get_rD(OP);
