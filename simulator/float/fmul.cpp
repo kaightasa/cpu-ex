@@ -16,6 +16,7 @@ uint32_t fmul_f(uint32_t x1, uint32_t x2) {
 	e2 = getBit32(x2, 30, 23);
 	m1 = getBit32(x1, 22, 0);
 	m2 = getBit32(x2, 22, 0);
+
 	//ok
 
 	//calc s for y
@@ -25,21 +26,18 @@ uint32_t fmul_f(uint32_t x1, uint32_t x2) {
 	//calc m
 	uint64_t tmp_m;//bit数 48
 	uint64_t tmp_tmp_m;
-	tmp_tmp_m = (((uint64_t)1 << 23) | (uint64_t)(m1)) * (((uint64_t)1 << 23) | (uint64_t)(m2));
+	tmp_tmp_m = (uint64_t)((1 << 23) | m1) * (uint64_t)((1 << 23) | m2);
 	tmp_m = getBit64(tmp_tmp_m, 47, 0);
-	//ok
 
 	uint32_t m;//bit数 23
-	m = ((((uint64_t)1 << 47) & tmp_m) == 0)? (uint32_t)(getBit64(tmp_m, 45, 23)):(uint32_t)(getBit64(tmp_m, 46, 24));
-	//ok
+	m = ((((uint64_t)1 << 47) & tmp_m) == 0)? (uint32_t)getBit64(tmp_m, 45, 23):(uint32_t)getBit64(tmp_m, 46, 24);
 
 	//calc e
 	uint32_t tmp_e;//bit数9
-	tmp_e = ((((uint64_t)1 << 47) & tmp_m) == 0) ? (e1 + e2) : (e1 + e2 + (1 << 8));
+	tmp_e = ((((uint64_t)1 << 47) & tmp_m) == 0) ? (e1 + e2) : (e1 + e2 + 1);
 	uint32_t tmp_tmp_e, e;//bit数 9, 8
-	tmp_tmp_e = tmp_e - 127;
+	tmp_tmp_e = getBit32(tmp_e - 127, 8, 0);
 	e = getBit32(tmp_tmp_e, 7, 0);
-	//ok
 
 	//determine whether overflow or underflow
 	bool unf;//bit数1
@@ -48,6 +46,6 @@ uint32_t fmul_f(uint32_t x1, uint32_t x2) {
 	ovf = (tmp_e >= 382);
 
 	uint32_t y;
-	y = (unf) ? 0 : ((ovf) ? ((s << 31) | 0xFF000000) : ((s << 31) | (e << 23) | m)); 
+	y = (unf) ? 0 : ((ovf) ? ((s << 31) | 0x7F800000) : ((s << 31) | (e << 23) | m)); 
 	return y;
 }
