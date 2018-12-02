@@ -10,6 +10,8 @@
 #include "float/fmul.h"
 #include "float/finv.h"
 #include "float/fdiv.h"
+#include "float/ftoi.h"
+#include "float/itof.h"
 #define DATA_ADDR 0x10000
 
 using namespace std;
@@ -381,7 +383,9 @@ void branch_cond() {
 void int_to_float() {
 	rD = get_rD(OP);
 	rA = get_rA(OP);
-	FPR[rD] = (float)((int32_t)GPR[rA]);
+	//FPR[rD] = (float)((int32_t)GPR[rA]);
+	uint32_t tmp = itof_f(GPR[rA]);
+	FPR[rD] = *(float*)&tmp;
 }
 void float_to_int() {
 	rD = get_rD(OP);
@@ -390,7 +394,9 @@ void float_to_int() {
 		exit(1);
 	}
 	rA = get_rA(OP);
-	GPR[rD] = (uint32_t)((int32_t)(FPR[rA]));
+	//GPR[rD] = (uint32_t)((int32_t)(FPR[rA]));
+	uint32_t tmp = *(uint32_t*)&FPR[rA];
+	GPR[rD] = ftoi_f(tmp);
 }
 
 void out() {

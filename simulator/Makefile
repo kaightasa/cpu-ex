@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS = -std=c++11 -O2 -Wall
 
-ALL: sim.o revAsm.o op.o instruction.o float/fadd.o float/fsub.o float/fmul.o float/finv.o float/fdiv.o
-	$(CC) $(CFLAGS) -o sim sim.o revAsm.o op.o instruction.o float/fadd.o float/fsub.o float/fmul.o float/finv.o float/fdiv.o
+ALL: sim.o revAsm.o op.o instruction.o float/fadd.o float/fsub.o float/fmul.o float/finv.o float/fdiv.o float/ftoi.o float/itof.o
+	$(CC) $(CFLAGS) -o sim sim.o revAsm.o op.o instruction.o float/fadd.o float/fsub.o float/fmul.o float/finv.o float/fdiv.o float/ftoi.o float/itof.o
 
 sim.o: sim.cpp
 	$(CC) $(CFLAGS) -o sim.o -c sim.cpp
@@ -30,6 +30,12 @@ float/finv.o: float/finv.cpp float/finv.h float/fcalc.h
 
 float/fdiv.o: float/fdiv.cpp float/fdiv.h float/fcalc.h float/fmul.h float/finv.h
 	$(CC) $(CFLAGS) -o float/fdiv.o -c float/fdiv.cpp
+
+float/ftoi.o: float/ftoi.cpp float/ftoi.h float/fcalc.h
+	$(CC) $(CFLAGS) -o float/ftoi.o -c float/ftoi.cpp
+
+float/itof.o: float/itof.cpp float/itof.h float/fcalc.h
+	$(CC) $(CFLAGS) -o float/itof.o -c float/itof.cpp
 
 
 clean:
