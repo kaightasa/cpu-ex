@@ -83,15 +83,21 @@ step実行のみout命令による出力を保存するようにし、普通に�
 アセンブラを使ったとき元のアセンブリ(入力)にPCを行頭につけたファイルasm_with_PC.outを生成するようにした。
 
 12/2
-fadd fsub ok
-fmul ok
-finv  fdiv ok
-ftoi itof ok
+float命令をfpu係の実装に合わせる作業
+							実装      テスト
+fadd					 ok				 ok
+fsub					 ok
+fmul					 ok 
+finv					 ok
+fdiv					 ok
+ftoi					 ok
+itof					 ok
+fsqrt					 ok
 
 ---------------------------------------タスク------------------------------------------------------
 
-.txt .align .globlなどの調整
+(.txt .align .globlなどの調整)
 
-bcの修正
+float
 
 (リンカ)
