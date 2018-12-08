@@ -28,7 +28,7 @@ uint32_t ftoi_f(uint32_t x) {
 	//ovf = (e >= 158);
 
 	uint32_t y;
-	y = (s == 0) ? ((s << 31) | getBit32(i, 30, 0)) : ((1 << 31) | (getBit32(~i, 30, 0) + 1));
+	y = (s == 0) ? ((s << 31) | getBit32(i, 30, 0)) : (((1 << 31) | getBit32(~i, 30, 0)) + 1);
 	return y;
 	
 }
