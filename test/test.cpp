@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
 	}
 	cout << endl;*/
 
-	uint32_t x = 0xAFCFBEFF;
+/*	uint32_t x = 0xAFCFBEFF;
 	uint32_t tmp = getBit(x, 19,4);
 	cout << "x " << hex << x << endl;
 	cout << "x 19~4 " << tmp << endl;
@@ -151,7 +151,7 @@ int main(int argc, char** argv) {
 	uint64_t y = 0xDF489AFCFBEFF000;
 	uint64_t tmp2 = getBit(y, 55,0);
 	cout << "y " << hex << y << endl;
-	cout << "y 55~0 " << tmp2 << endl;
+	cout << "y 55~0 " << tmp2 << endl;*/
 
 	/*uint32_t r0 = 0xffffffff;
 	int32_t r1 = int32_t(r0);
@@ -170,6 +170,10 @@ int main(int argc, char** argv) {
 		cout << "r1 is bigger than r2" << endl;
 		cout << hex << "r1: " << r1 << "  r2: " << r2 << endl;
 	}*/
+
+	float tmp = -91.3;
+	uint32_t utmp = *(uint32_t*)&tmp;
+	cout << hex << utmp << endl;
 }
 
 
