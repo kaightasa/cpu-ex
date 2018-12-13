@@ -171,9 +171,14 @@ int main(int argc, char** argv) {
 		cout << hex << "r1: " << r1 << "  r2: " << r2 << endl;
 	}*/
 
-	float tmp = -91.3;
+	float tmp = 3.14159;
+	float tmp2 = -3.14159;
 	uint32_t utmp = *(uint32_t*)&tmp;
+	uint32_t utmp2 = *(uint32_t*)&tmp2;
 	cout << hex << utmp << endl;
+	cout << *(float*)&utmp << endl;
+	cout << hex << utmp2 << endl;
+	cout << *(float*)&utmp2 << endl;
 }
 
 
