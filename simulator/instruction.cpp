@@ -18,7 +18,7 @@
 using namespace std;
 
 
-const int DATA_ADDR = 0x100000;
+const int DATA_ADDR = 0xf000000;
 extern vector<uint32_t> GPR;
 extern vector<float> FPR;
 extern uint32_t CR;
@@ -423,7 +423,7 @@ void out() {
 void outstep() {
 	rD = get_rD(OP);
 	uint32_t result = 0x000000FF & GPR[rD];
-	cout << "operation out..." << static_cast<char>(result)  << endl;
+//	cout << "operation out..." << static_cast<char>(result)  << endl;
 	outChar.push_back(static_cast<char>(result));
 }
 

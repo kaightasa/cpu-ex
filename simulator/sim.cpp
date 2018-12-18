@@ -68,7 +68,7 @@ uint32_t CR = 0;//コンディションレジスタ
 uint32_t LR = 0;//リンクレジスタ
 
 const int INST_ADDR = 0x10000;
-const int DATA_ADDR = 0x100000;
+const int DATA_ADDR = 0xf00000;
 uint32_t INST_MEM[INST_ADDR] = {};//命令のバイナリを読み込むエンディアンに注意!
 
 uint32_t DATA_MEM[DATA_ADDR] = {};//データを保存するメモリ
@@ -95,7 +95,7 @@ long long int instNum;//何番目の命令か
 
 vector<char> outChar;//outによる出力を保存しておく
 
-const uint32_t initsp = 0x80000;//spの初期値
+const uint32_t initsp = 0x800000;//spの初期値
 
 #define SHOWGPR()\
 do { \
@@ -649,9 +649,9 @@ int main(int argc, char**argv) {
 				if ((input == " ")| (input == "") | (input == "\t")) {
 					continue;
 				}
-				//cout << "input from sld: " << input << endl;
+				cout << "input from sld: " << input << endl;
 				uint32_t uinput;
-				if (input.find(".") != string::npos) {
+				/*if (input.find(".") != string::npos) {
 				//string to float
 					float finput;
 					try {
@@ -669,8 +669,16 @@ int main(int argc, char**argv) {
 					} catch (const invalid_argument &e) {
 						cout << "invalid_argument from sld (int)" << endl;
 					}
+				}*/
+				float finput;
+				try {
+					finput = (float)stod(input, nullptr);
+					uinput = *(uint32_t*)&finput;
+				} catch (const invalid_argument &e) {
+					cout << "invalid input from sld (float)" << endl;
+					return 1;
 				}
-				uinput_vector.push_back(uinput);
+			uinput_vector.push_back(uinput);
 			}
 		}
 		//debug
