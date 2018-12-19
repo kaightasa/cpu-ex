@@ -152,9 +152,6 @@ min_caml_read_int:
   slwi  r2, r2, 8
   in r31
   add r2, r2, r31
-  st  r2, r3, 8
-  fld fr1, r3, 8
-  ftoi r2, fr1
   blr
 min_caml_read_float:
   in r2
@@ -12708,8 +12705,8 @@ _min_caml_start:
 	st	r18, r30, 12
 	st	r9, r30, 8
 	st	r5, r30, 4
-	li	r2, 512
-	li	r5, 512
+	li	r2, 128
+	li	r5, 128
 	mflr	r31
 	st	r31, r3, 148
 	addi	r3, r3, 152
