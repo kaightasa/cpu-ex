@@ -68,7 +68,7 @@ uint32_t CR = 0;//コンディションレジスタ
 uint32_t LR = 0;//リンクレジスタ
 
 const int INST_ADDR = 0x10000;
-const int DATA_ADDR = 0xf00000;
+const int DATA_ADDR = 0x1000000;
 uint32_t INST_MEM[INST_ADDR] = {};//命令のバイナリを読み込むエンディアンに注意!
 
 uint32_t DATA_MEM[DATA_ADDR] = {};//データを保存するメモリ
@@ -296,7 +296,6 @@ int normal() {//通常実行
 	instNum = 0;
 	PC = mincamlStart >> 2;
 	GPR[3] = initsp;//stack
-	volatile int exception = 0;
 	while(PC < lastPC) {
 		try {
 			int result = do_op();
@@ -629,66 +628,18 @@ int main(int argc, char**argv) {
 	}
 	if (inputflag == 1) {//deal with sld file
 		cout << "optional input: " << sldname << endl;
-		ifstream inputsld;
-		inputsld.open(sldname, ifstream::in);
+		ifstream inputsld(sldname, ios::binary);
 		if (!inputsld) {
-			cerr << "cannot open optional input file" << endl;
-			return 1;
+			cerr << "cannot open sld file" << endl;
+			return EXIT_FAILURE;
 		}
-		string line;
-		while (getline(inputsld, line)) {
-			if (line == "") {
-				continue;
-			}
-			string trimmedStr = trim(line);
-			vector<string> vitem1 = StringSplit(trimmedStr, ' ');
-			vector<string>::iterator slditr;
-			for (slditr = vitem1.begin(); slditr != vitem1.end(); slditr++) {
-		//		input_string.push_back(*slditr);
-				string input = *slditr;
-				if ((input == " ")| (input == "") | (input == "\t")) {
-					continue;
-				}
-				cout << "input from sld: " << input << endl;
-				uint32_t uinput;
-				/*if (input.find(".") != string::npos) {
-				//string to float
-					float finput;
-					try {
-						finput = (float)stod(input, nullptr);
-						uinput = *(uint32_t*)&finput;
-					} catch (const invalid_argument &e) {
-						cout << "invalid input from sld (float)" << endl;
-						return 1;
-					}
-				} else {
-					//string to int
-					try {
-						int iinput = stoi(input, nullptr, 0);
-						uinput = *(uint32_t*)&iinput;
-					} catch (const invalid_argument &e) {
-						cout << "invalid_argument from sld (int)" << endl;
-					}
-				}*/
-				float finput;
-				try {
-					finput = (float)stod(input, nullptr);
-					uinput = *(uint32_t*)&finput;
-				} catch (const invalid_argument &e) {
-					cout << "invalid input from sld (float)" << endl;
-					return 1;
-				}
-			uinput_vector.push_back(uinput);
-			}
+		unsigned char buf;
+		inputsld.read((char*)&buf, sizeof buf);
+		while(!inputsld.eof()) {
+			cout << (uint32_t)buf << endl;
+			uinput_vector.push_back((uint32_t)buf);
+			inputsld.read((char*)&buf, sizeof buf);
 		}
-		//debug
-		/*vector<uint32_t>::iterator inputitr;
-		cout << "------optional input-------" << endl;
-		for (inputitr = uinput_vector.begin(); inputitr != uinput_vector.end(); inputitr++) {
-			cout << *inputitr << " ";
-		}
-		cout << endl << "--------optional input end--------" << endl;
-		cout << endl;*/
 
 	}//end dealing with sld file
 
