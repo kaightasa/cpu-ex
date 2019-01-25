@@ -14,9 +14,9 @@ int main() {
 	float y;
 	uint32_t myy;
 
-	//for (int i = -4294967295; i < 4294967295; i++) {
+	for (int i = -4294967295; i < 4294967295; i++) {
 	//for (int i = 10000000; i < 100000000; i++) {
-	for (int i = 1000000000; i < 4000000000; i++) {
+	//for (int i = 10000000; i < 100000000; i++) {
 		xli = i;
 		x = xli;
 		y = static_cast<float>(xli);
